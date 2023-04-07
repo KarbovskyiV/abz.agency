@@ -26,6 +26,7 @@ class EmployeeSeeder extends Seeder
                 'date_of_employment' => $faker->date,
                 'phone_number' => $faker->phoneNumber,
                 'email' => $faker->unique()->email,
+                'password' => $faker->password(),
                 'salary' => $faker->numberBetween(20000, 100000),
                 'photo' => $faker->imageUrl(400, 400, 'people'),
                 'created_at' => now(),
