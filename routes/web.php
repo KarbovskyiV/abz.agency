@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +21,6 @@ Route::get('/', function () {
 
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
+Route::get('/api/v1/employees', [EmployeeController::class, 'getEmployees'])->name('api.employees.index');
