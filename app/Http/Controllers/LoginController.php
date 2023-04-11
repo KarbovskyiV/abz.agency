@@ -35,7 +35,7 @@ class LoginController extends Controller
 
         if ($user && $user->password === $password) {
             Auth::login($user);
-            return redirect('/');
+            return redirect('/employees');
         }
 
         return back()->withErrors(['email' => 'Invalid email or password']);
