@@ -24,3 +24,4 @@ Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::get('/api/v1/employees', [EmployeeController::class, 'getEmployees'])->name('api.employees.index');
+Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
