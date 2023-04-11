@@ -5,17 +5,20 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function () {
-            $('#employees-table').DataTable({
+            let table = $('#employees-table').DataTable({
                 'processing': true,
                 'serverSide': true,
                 'ajax': "{{ route('api.employees.index') }}",
@@ -49,6 +52,43 @@
                         }
                     },
                 ]
+            });
+
+            $('#employees-table tbody').on('click', '.delete-btn', function () {
+                let row = table.row($(this).closest('tr')).data();
+                Swal.fire({
+                    title: 'Remove employee',
+                    text: "Are you sure you want to remove employee " + row.name + "?",
+                    showCancelButton: true,
+                    showCloseButton: true,
+                    reverseButtons: true,
+                    cancelButtonColor: '#cec9c9',
+                    confirmButtonColor: 'gray',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonText: 'Remove',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ route('employees.destroy', ':id') }}".replace(':id', row.id),
+                            type: 'DELETE',
+                            data: {
+                                id: row.id,
+                                "_token": "{{ csrf_token() }}"
+                            },
+                            success: function (data) {
+                                Swal.fire(
+                                    'Deleted!',
+                                    'The employee has been deleted.',
+                                    'success'
+                                );
+                                table.draw();
+                            },
+                            error: function (data) {
+                                console.log('Error:', data);
+                            }
+                        });
+                    }
+                });
             });
         });
     </script>
