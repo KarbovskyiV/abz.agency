@@ -18,6 +18,7 @@ class EmployeeController extends Controller
     public function getEmployees()
     {
         $query = Employee::query()->select(
+            'id',
             'photo',
             'name',
             'position',
@@ -27,5 +28,17 @@ class EmployeeController extends Controller
             'salary'
         );
         return datatables($query)->make(true);
+    }
+
+    public function destroy($id)
+    {
+        $employee = Employee::query()->find($id);
+
+        if ($employee) {
+            $employee->delete();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Employee not found.']);
+        }
     }
 }
