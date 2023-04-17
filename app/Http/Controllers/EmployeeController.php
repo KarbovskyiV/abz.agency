@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Position;
 use Yajra\DataTables\Exceptions\Exception;
 
 class EmployeeController extends Controller
@@ -28,6 +29,18 @@ class EmployeeController extends Controller
             'salary'
         );
         return datatables($query)->make(true);
+    }
+
+    public function create()
+    {
+        $positions = Position::query()->select('name')->get();
+
+        return view('employee.create', compact('positions'));
+    }
+
+    public function store()
+    {
+        dump('success');
     }
 
     public function destroy($id)
