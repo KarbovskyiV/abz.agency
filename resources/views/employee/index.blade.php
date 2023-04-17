@@ -1,21 +1,12 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.css">
+@extends('layouts.base')
 
+@section('title', 'Document')
+
+@push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+
     <script>
         $(document).ready(function () {
             let table = $('#employees-table').DataTable({
@@ -92,63 +83,30 @@
             });
         });
     </script>
+@endpush
 
-    <title>Document</title>
+@section('button')
+    <a href="{{ route('employees.create') }}" class="btn btn-xs btn-secondary">Add employee</a>
+@endsection
 
-</head>
-<body>
-
-<div class="container-fluid bg-dark px-0" style="overflow-x: hidden;">
-    <div class="row">
-        <div class="col-md-2">
-            <ul class="list-group bg-white">
-                <li class="list-group-item bg-dark text-white">
-                    <button class="btn btn-dark text-white fs-4">List</button>
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <button class="btn btn-dark text-white bi bi-people-fill">&nbsp;Employees</button>
-                </li>
-                <li class="list-group-item bg-dark text-white">
-                    <button class="btn btn-dark text-white bi bi-book">&nbsp;Positions</button>
-                </li>
-            </ul>
-        </div>
-        <div class="col-md-10">
-            <div class="d-flex justify-content-end bg-secondary">
-                <form action="#" method="post">
-                    <button name="logout" class="btn btn-xs btn-secondary bi bi-box-arrow-right"></button>
-                </form>
-            </div>
-            <div class="card">
-                <div class="card-header fs-3 d-flex justify-content-between align-items-center">
-                    <span>Employees</span>
-                    <form action="#" method="post">
-                        <button name="add_employee" class="btn btn-xs btn-secondary">Add employee</button>
-                    </form>
-                </div>
-                <div class="card-body">
-                    <div class="fs-5 mb-2">Employees list</div>
-                    <table id="employees-table" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Photo</th>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Date of employment</th>
-                            <th>Phone number</th>
-                            <th>Email</th>
-                            <th>Salary</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+@section('main')
+    <div class="border p-3">
+        <div class="fs-5 mb-2">Employees list</div>
+        <table id="employees-table" class="table table-striped">
+            <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Position</th>
+                <th>Date of employment</th>
+                <th>Phone number</th>
+                <th>Email</th>
+                <th>Salary</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
-</div>
-
-</body>
-</html>
+@endsection
