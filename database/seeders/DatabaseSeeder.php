@@ -11,12 +11,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // use once, or it duplicates positions table, it was worked but not good...
+        // first time create few employees, then may create as many as want
 
         $this->call([
             PositionsSeeder::class,
             EmployeeSeeder::class,
-            SupervisorsSeeder::class,
         ]);
     }
 }
