@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Position;
+use Illuminate\Http\Request;
 use Yajra\DataTables\Exceptions\Exception;
 
 class EmployeeController extends Controller
@@ -18,11 +19,11 @@ class EmployeeController extends Controller
      */
     public function getEmployees()
     {
-        $query = Employee::query()->select(
+        $query = Employee::query()->with('position')->select(
             'id',
             'photo',
             'name',
-            'position',
+            'position_id',
             'date_of_employment',
             'phone_number',
             'email',
@@ -38,9 +39,15 @@ class EmployeeController extends Controller
         return view('employee.create', compact('positions'));
     }
 
-    public function store()
+    public function store(Request $request)
     {
-        dump('success');
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'min:2, max:256'],
+            'date_of_employment' => ['required', 'date_format:d.m.Y'],
+            'phone_number' => ['required', 'regex:^(\+38)?\s?0\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$', 'min:12'],
+            'email' => ['required', 'email', 'unique:employees', 'max:50'],
+            'salary' => ['required', 'decimal:0,500000'],
+        ]);
     }
 
     public function destroy($id)
