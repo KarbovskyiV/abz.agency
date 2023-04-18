@@ -13,19 +13,22 @@ return new class extends Migration {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('position_id')->constrained();
+            $table->unsignedBigInteger('supervisor_id')->nullable();
             $table->timestamps();
 
             $table->string('name');
-            $table->string('position');
-            $table->date('date_of_employment');
-            $table->string('phone_number');
+            $table->string('date_of_employment');
+            $table->string('phone_number')->unique();
             $table->string('email')->unique();
             $table->string('password');
             $table->decimal('salary', 10, 2);
             $table->string('photo')->nullable();
+            $table->integer('level')->default(1);
 
             $table->unsignedBigInteger('admin_created_id')->nullable();
             $table->unsignedBigInteger('admin_updated_id')->nullable();
+
+            $table->foreign('supervisor_id')->references('id')->on('employees')->onDelete('set null');
         });
     }
 
