@@ -6,7 +6,8 @@
     <div class="col-md-5">
         <div class="border p-3">
             <div class="fs-5 mb-3">Add employee</div>
-            <form method="post" enctype="multipart/form-data">
+            <form action="{{ route('employees.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group mb-3">
                     <label for="photo" class="fw-bold mb-1">Photo</label>
                     <input type="file" class="form-control-file" id="photo" name="photo" style="display: none;">
@@ -78,7 +79,7 @@
 
                 <div class="text-end">
                     <a href="{{ route('employees.index') }}" class="btn btn-outline-secondary mx-2 w-25">Cancel</a>
-                    <a href="{{ route('employees.store') }}" class="btn btn-secondary mx-2 w-25">Save</a>
+                    <button class="btn btn-secondary mx-2 w-25">Save</button>
                 </div>
             </form>
         </div>
