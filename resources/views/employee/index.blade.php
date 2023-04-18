@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -21,20 +22,26 @@
                         }
                     },
                     {data: 'name'},
-                    {data: 'position'},
+                    {
+                        data: 'position.name',
+                        render: function (data, type, row) {
+                            return data;
+                        }
+                    },
                     {
                         data: 'date_of_employment',
                         render: function (data) {
-                            let date = new Date(data);
-                            let day = ('0' + date.getDate()).slice(-2);
-                            let month = ('0' + (date.getMonth() + 1)).slice(-2);
-                            let year = date.getFullYear();
-                            return day + '.' + month + '.' + year;
+                            return moment.utc(data.date).format('DD.MM.YYYY');
                         }
                     },
                     {data: 'phone_number'},
                     {data: 'email'},
-                    {data: 'salary'},
+                    {
+                        data: 'salary',
+                        render: function (data) {
+                            return '$' + Number(data).toLocaleString('en-US');
+                        }
+                    },
                     {
                         data: null,
                         render: function (data, type, row) {
