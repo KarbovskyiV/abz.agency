@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Position;
+use Illuminate\Support\Facades\DB;
 
 class PositionsSeeder extends Seeder
 {
@@ -12,18 +13,17 @@ class PositionsSeeder extends Seeder
      */
     public function run()
     {
-        $positions = [
-            ['name' => 'Manager'],
-            ['name' => 'Developer'],
-            ['name' => 'Designer'],
-            ['name' => 'Marketing Specialist'],
-            ['name' => 'Sales Representative'],
-            ['name' => 'HR Manager'],
-        ];
+        $positions = Position::all();
 
-        foreach ($positions as $position) {
-            $p = new Position($position);
-            $p->save();
+        if ($positions->isEmpty()) {
+            DB::table('positions')->insert([
+                ['name' => 'Manager', 'created_at' => now(), 'updated_at' => now(),],
+                ['name' => 'Developer', 'created_at' => now(), 'updated_at' => now(),],
+                ['name' => 'Designer', 'created_at' => now(), 'updated_at' => now(),],
+                ['name' => 'Marketing Specialist', 'created_at' => now(), 'updated_at' => now(),],
+                ['name' => 'Sales Representative', 'created_at' => now(), 'updated_at' => now(),],
+                ['name' => 'HR Manager', 'created_at' => now(), 'updated_at' => now(),],
+            ]);
         }
     }
 }
