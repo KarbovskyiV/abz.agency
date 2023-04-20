@@ -6,7 +6,11 @@ use App\Models\Employee;
 use App\Models\Position;
 use App\Rules\HierarchyValidationRule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Yajra\DataTables\Exceptions\Exception;
+
+use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class EmployeeController extends Controller
 {
@@ -47,24 +51,40 @@ class EmployeeController extends Controller
             'name' => ['required', 'string', 'min:2, max:256'],
             'date_of_employment' => [
                 'required',
-                'date_format:Y-m-d',
                 'after_or_equal:2000-01-01',
                 'before_or_equal:today'
             ],
-            'phone_number' => ['required', 'regex:/^(\+38)?\s?0\d{2}\s?\d{3}\s?\d{2}\s?\d{2}$/i'],
+            'phone_number' => ['required', 'regex:/^\+380\s?\(\d{2}\)\s?\d{3}\s?\d{2}\s?\d{2}$/'],
             'email' => ['required', 'email', 'unique:employees', 'max:50'],
             'salary' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'between:0,500000'],
             'head' => [
                 'nullable',
-                new HierarchyValidationRule($request->employee),
-                'exists:employees,name',
+                // TODO зробить перевірку на ієрархію
+                Rule::exists('employees', 'name')->when($request->input('head'), function ($query) use ($request) {
+                    $selectedHead = DB::table('employees')
+                        ->select('level')
+                        ->where('name', $request->input('head'))
+                        ->first();
+
+                    if ($selectedHead?->level > 1) {
+                        return ['required', 'exists:employees,name'];
+                    } else {
+                        return null;
+                    }
+                }),
             ],
             'position' => ['required', 'exists:positions,name'],
         ]);
 
-        $employees = Employee::query()->create([
-//            'position_id' => Position::query()->value('id'),
-            'supervisor_id' => Employee::query()->value('id'),
+
+        $position = Position::query()->where('name', $validated['position'])->first();
+
+        $headName = $validated['head'];
+        $head = Employee::query()->where('name', $headName)->first();
+
+        Employee::query()->create([
+            'position_id' => $position->id,
+            'supervisor_id' => $head?->id,
             'name' => $validated['name'],
             'date_of_employment' => $validated['date_of_employment'],
             'phone_number' => $validated['phone_number'],
@@ -74,8 +94,6 @@ class EmployeeController extends Controller
             'photo' => null,
             'level' => 1,
         ]);
-
-        dd($employees);
     }
 
     public function destroy($id)
