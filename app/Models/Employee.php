@@ -25,9 +25,16 @@ class Employee extends Model implements AuthenticatableContract
     }
 
     protected $fillable = [
+        'position_id',
+        'supervisor_id',
         'name',
+        'date_of_employment',
+        'phone_number',
         'email',
+        'salary',
+        'photo',
         'password',
+        'level',
     ];
 
     protected $hidden = [
