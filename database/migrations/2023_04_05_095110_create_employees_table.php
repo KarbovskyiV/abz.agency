@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('date_of_employment');
             $table->string('phone_number')->unique();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->decimal('salary', 10, 2);
             $table->string('photo')->nullable();
             $table->integer('level')->default(1);
