@@ -18,7 +18,19 @@
                     {
                         data: 'photo',
                         render: function (data, type, full, meta) {
-                            return '<img src="' + data + '" alt="' + full.name + '" width="50"/>';
+                            if (!data) {
+                                return 'Photo missing';
+                            }
+                            if (typeof data === 'string' && data.startsWith('http')) {
+                                // If it's a remote URL, return an <img> element with the URL as the src attribute
+                                return '<img src="' + data + '" alt="' + full.name + '" width="50"/>';
+                            } else {
+                                // If it's a local file, generate the full URL to the photo using the asset() helper function
+                                let url = "{{ asset('storage/photos/:filename') }}".replace(':filename', data);
+
+                                // Return an <img> element with the photo URL as the src attribute
+                                return '<img src="' + url + '" alt="' + full.name + '" width="50"/>';
+                            }
                         }
                     },
                     {data: 'name'},
@@ -45,7 +57,7 @@
                     {
                         data: null,
                         render: function (data, type, row) {
-                            return '<button class="btn btn-sm btn-outline-secondary mr-1 edit-btn"><i class="fas fa-pencil-alt"></i></button>' +
+                            return '<a href="{{ route("employees.edit", ":id") }}'.replace(':id', row.id) + '" class="btn btn-sm btn-outline-secondary mr-1 edit-btn"><i class="fas fa-pencil-alt"></i></a>' +
                                 '<button class="btn btn-sm btn-outline-secondary mr-1 delete-btn"><i class="fas fa-trash"></i></button>';
                         }
                     },
