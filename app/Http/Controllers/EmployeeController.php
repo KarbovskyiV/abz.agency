@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Position;
-use App\Rules\HierarchyValidationRule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 use Yajra\DataTables\Exceptions\Exception;
-
-use function Webmozart\Assert\Tests\StaticAnalysis\string;
 
 class EmployeeController extends Controller
 {
@@ -54,7 +51,7 @@ class EmployeeController extends Controller
                 'after_or_equal:2000-01-01',
                 'before_or_equal:today'
             ],
-            'phone_number' => ['required', 'regex:/^\+380\s?\(\d{2}\)\s?\d{3}\s?\d{2}\s?\d{2}$/'],
+            'phone_number' => ['required', 'regex:/^\+380\s?\(\d{2}\)\s?\d{3}\s?\d{2}\s?\d{2}$/', 'unique:employees'],
             'email' => ['required', 'email', 'unique:employees', 'max:50'],
             'salary' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'between:0,500000'],
             'head' => [
@@ -82,7 +79,13 @@ class EmployeeController extends Controller
         $headName = $validated['head'];
         $head = Employee::query()->where('name', $headName)->first();
 
-        Employee::query()->create([
+        $photo = $request->file('photo');
+        // Generate a unique filename
+        $filename = time() . '_' . $photo->getClientOriginalName();
+        // Save the file to storage
+        $photo->storeAs('public/photos', $filename);
+
+        $query = Employee::query()->create([
             'position_id' => $position->id,
             'supervisor_id' => $head?->id,
             'name' => $validated['name'],
@@ -91,9 +94,19 @@ class EmployeeController extends Controller
             'email' => $validated['email'],
             'password' => null,
             'salary' => $validated['salary'],
-            'photo' => null,
+            'photo' => $filename,
             'level' => 1,
         ]);
+
+        dd($query);
+    }
+
+    public function edit($id)
+    {
+        $employee = Employee::query()->findOrFail($id);
+        $positions = Position::all();
+
+        return view('employee.edit', compact('employee', 'positions'));
     }
 
     public function destroy($id)
