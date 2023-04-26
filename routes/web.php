@@ -25,5 +25,6 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
 Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
 Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
 Route::get('/api/v1/employees', [EmployeeController::class, 'getEmployees'])->name('api.employees.index');
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
