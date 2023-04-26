@@ -10,9 +10,12 @@
                 @csrf
                 <div class="form-group mb-3">
                     <label for="photo" class="fw-bold mb-1">Photo</label>
-                    <input type="file" class="form-control-file" id="photo" name="photo" value="{{ old('photo') }}"
-                           style="display: none;">
+                    <input type="file" class="form-control-file" id="photo" name="photo" style="display: none;">
                     <div>
+                        <div class="my-2">
+                            <img id="photo-preview" src="#" alt="Preview"
+                                 style="display: none; min-width: 300px; min-height: 300px;">
+                        </div>
                         <label class="btn btn-outline-secondary w-50" for="photo">Browse</label>
                     </div>
                     <div class="text-muted">
@@ -22,6 +25,26 @@
                         <span class="text-danger">{{ $errors->first('photo') }}</span>
                     @endif
                 </div>
+
+                <script>
+                    document.querySelector('#photo').addEventListener('change', function (e) {
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const preview = document.querySelector('#photo-preview');
+                            preview.onload = function () {
+                                if (this.width < 300 || this.height < 300) {
+                                    alert('The photo must be at least 300x300 pixels.');
+                                    document.querySelector('#photo').value = '';
+                                    preview.style.display = 'none';
+                                } else {
+                                    preview.style.display = 'block';
+                                }
+                            }
+                            preview.src = reader.result;
+                        }
+                        reader.readAsDataURL(e.target.files[0]);
+                    });
+                </script>
 
                 <div class="form-group mb-3">
                     <label for="name" class="fw-bold mb-1">Name</label>
