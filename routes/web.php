@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PositionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,11 @@ Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('e
 Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
 Route::get('/api/v1/employees', [EmployeeController::class, 'getEmployees'])->name('api.employees.index');
 Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
+
+Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
+Route::get('/positions/create', [PositionController::class, 'create'])->name('positions.create');
+Route::post('/positions/store', [PositionController::class, 'store'])->name('positions.store');
+Route::get('/positions/{id}/edit', [PositionController::class, 'edit'])->name('positions.edit');
+Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
+Route::get('/api/v1/positions', [PositionController::class, 'getEmployees'])->name('api.positions.index');
+Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
