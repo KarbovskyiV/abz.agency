@@ -28,7 +28,8 @@
                         render: function (data, type, row) {
                             return '<a href="{{ route("positions.edit", ":id") }}'.replace(':id', row.id) + '" class="btn btn-sm btn-outline-secondary mr-1 edit-btn"><i class="fas fa-pencil-alt"></i></a>' +
                                 '<button class="btn btn-sm btn-outline-secondary mr-1 delete-btn"><i class="fas fa-trash"></i></button>';
-                        }
+                        },
+                        orderable: false,
                     },
                 ]
             });

@@ -32,19 +32,20 @@
                                 // Return an <img> element with the photo URL as the src attribute
                                 return '<img src="' + url + '" alt="' + full.name + '" width="50" height="50"/>';
                             }
-                        }
+                        },
                     },
                     {data: 'name'},
                     {
                         data: 'position.name',
-                        render: function (data, type, row) {
-                            return data;
-                        }
                     },
                     {
-                        data: 'date_of_employment',
+                        data: 'date_of_employment_formatted',
                         render: function (data) {
-                            return moment.utc(data.date).format('DD.MM.YYYY');
+                            const date = new Date(data);
+                            const day = date.getDate().toString().padStart(2, '0');
+                            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                            const year = date.getFullYear().toString();
+                            return `${day}.${month}.${year}`;
                         }
                     },
                     {data: 'phone_number'},
@@ -60,7 +61,8 @@
                         render: function (data, type, row) {
                             return '<a href="{{ route("employees.edit", ":id") }}'.replace(':id', row.id) + '" class="btn btn-sm btn-outline-secondary mr-1 edit-btn"><i class="fas fa-pencil-alt"></i></a>' +
                                 '<button class="btn btn-sm btn-outline-secondary mr-1 delete-btn"><i class="fas fa-trash"></i></button>';
-                        }
+                        },
+                        orderable: false,
                     },
                 ]
             });
