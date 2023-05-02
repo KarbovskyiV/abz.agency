@@ -31,7 +31,7 @@
                     <a href="{{ route('employees.index') }}" class="btn btn-dark text-white bi bi-people-fill">&nbsp;Employees</a>
                 </li>
                 <li class="list-group-item bg-dark text-white">
-                    <button class="btn btn-dark text-white bi bi-book">&nbsp;Positions</button>
+                    <a href="{{ route('positions.index') }}" class="btn btn-dark text-white bi bi-book">&nbsp;Positions</a>
                 </li>
             </ul>
         </div>
@@ -43,7 +43,7 @@
             </div>
             <div class="card">
                 <div class="fs-3 d-flex justify-content-between align-items-center" style="margin-left: 15px;">
-                    <span>Employees</span>
+                    <span>@yield('head')</span>
                     @yield('button')
                 </div>
                 <div class="card-body">
