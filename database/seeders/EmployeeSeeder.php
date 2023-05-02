@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Employee;
 use App\Models\Position;
+use Carbon\Carbon;
 use Faker\Provider\uk_UA\PhoneNumber;
 use Illuminate\Database\Seeder;
 use Faker\Factory;
@@ -32,12 +33,13 @@ class EmployeeSeeder extends Seeder
                 'level' => $level,
                 'supervisor_id' => $level === 5 ? null : $supervisor,
                 'name' => $faker->name,
-                'date_of_employment' => $faker->date('d.m.Y'),
+                'date_of_employment' => $faker->dateTimeBetween(Carbon::create(2000), Carbon::now())
+                    ->format('d.m.Y'),
                 'phone_number' => PhoneNumber::numerify('+380 (##) ### ## ##'),
                 'email' => $faker->unique()->email,
                 'password' => $faker->password(),
                 'salary' => $faker->numberBetween(0, 500000),
-                'photo' => $faker->imageUrl(400, 400, 'people'),
+                'photo' => $faker->imageUrl(300, 300, 'people'),
                 'created_at' => now(),
                 'updated_at' => now(),
                 'admin_created_id' => 1,
