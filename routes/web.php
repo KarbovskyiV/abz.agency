@@ -23,18 +23,22 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'index']);
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
-Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
-Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
-Route::get('/employees/{id}/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
-Route::put('/employees/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+Route::prefix('employees')->name('employees.')->group(function () {
+    Route::get('/', [EmployeeController::class, 'index'])->name('index');
+    Route::get('/create', [EmployeeController::class, 'create'])->name('create');
+    Route::post('/store', [EmployeeController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [EmployeeController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [EmployeeController::class, 'update'])->name('update');
+    Route::delete('/{id}', [EmployeeController::class, 'destroy'])->name('destroy');
+});
 Route::get('/api/v1/employees', [EmployeeController::class, 'getEmployees'])->name('api.employees.index');
-Route::delete('/employees/{id}', [EmployeeController::class, 'destroy'])->name('employees.destroy');
 
-Route::get('/positions', [PositionController::class, 'index'])->name('positions.index');
-Route::get('/positions/create', [PositionController::class, 'create'])->name('positions.create');
-Route::post('/positions/store', [PositionController::class, 'store'])->name('positions.store');
-Route::get('/positions/{id}/edit', [PositionController::class, 'edit'])->name('positions.edit');
-Route::put('/positions/{id}', [PositionController::class, 'update'])->name('positions.update');
+Route::prefix('positions')->name('positions.')->group(function () {
+    Route::get('/', [PositionController::class, 'index'])->name('index');
+    Route::get('/create', [PositionController::class, 'create'])->name('create');
+    Route::post('/store', [PositionController::class, 'store'])->name('store');
+    Route::get('/{id}/edit', [PositionController::class, 'edit'])->name('edit');
+    Route::put('/{id}', [PositionController::class, 'update'])->name('update');
+    Route::delete('/{id}', [PositionController::class, 'destroy'])->name('destroy');
+});
 Route::get('/api/v1/positions', [PositionController::class, 'getEmployees'])->name('api.positions.index');
-Route::delete('/positions/{id}', [PositionController::class, 'destroy'])->name('positions.destroy');
