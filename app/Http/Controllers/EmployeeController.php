@@ -26,11 +26,12 @@ class EmployeeController extends Controller
             'photo',
             'name',
             'position_id',
-            'date_of_employment',
             'phone_number',
             'email',
             'salary'
-        );
+        )
+            ->selectRaw("STR_TO_DATE(date_of_employment, '%d.%m.%Y') AS date_of_employment_formatted");
+
         return datatables($query)->make(true);
     }
 
