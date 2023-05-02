@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('title', 'Create')
+@section('head', 'Employees')
 
 @section('main')
     <div class="col-md-5">

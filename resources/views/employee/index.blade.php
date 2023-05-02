@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('title', 'Document')
+@section('head', 'Employees')
 
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.13/dist/sweetalert2.min.js"></script>
