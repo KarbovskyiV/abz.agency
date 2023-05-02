@@ -23,13 +23,13 @@
                             }
                             if (typeof data === 'string' && data.startsWith('http')) {
                                 // If it's a remote URL, return an <img> element with the URL as the src attribute
-                                return '<img src="' + data + '" alt="' + full.name + '" width="50"/>';
+                                return '<img src="' + data + '" alt="' + full.name + '" width="50" height="50"/>';
                             } else {
                                 // If it's a local file, generate the full URL to the photo using the asset() helper function
                                 let url = "{{ asset('storage/photos/:filename') }}".replace(':filename', data);
 
                                 // Return an <img> element with the photo URL as the src attribute
-                                return '<img src="' + url + '" alt="' + full.name + '" width="50"/>';
+                                return '<img src="' + url + '" alt="' + full.name + '" width="50" height="50"/>';
                             }
                         }
                     },
