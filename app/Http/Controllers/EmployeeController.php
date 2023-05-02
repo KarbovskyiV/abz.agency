@@ -104,9 +104,58 @@ class EmployeeController extends Controller
     public function edit($id)
     {
         $employee = Employee::query()->findOrFail($id);
+        $heads_name = Employee::query()->pluck('name')->toArray();
         $positions = Position::all();
 
-        return view('employee.edit', compact('employee', 'positions'));
+        return view('employee.edit', compact('employee', 'positions', 'heads_name'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $employee = Employee::query()->findOrFail($id);
+
+        $validated = $request->validate([
+            'photo' => ['file', 'max:5000', 'mimes:jpg,png', 'dimensions:min_width=300,min_height=300'],
+            'name' => ['required', 'string', 'min:2, max:256'],
+            'phone_number' => [
+                'required',
+                'regex:/^\+380\s?\(\d{2}\)\s?\d{3}\s?\d{2}\s?\d{2}$/',
+                Rule::unique('employees')->ignore($employee->id),
+            ],
+            'email' => ['required', 'email', 'max:50', Rule::unique('employees')->ignore($employee->id)],
+            'position' => ['required', 'exists:positions,name'],
+            'salary' => ['required', 'numeric', 'regex:/^\d+(\.\d{1,2})?$/', 'between:0,500000'],
+            'head' => [
+                'nullable',
+                // TODO зробить перевірку на ієрархію
+                Rule::exists('employees', 'name')->when($request->input('head'), function ($query) use ($request) {
+                    $selectedHead = DB::table('employees')
+                        ->select('level')
+                        ->where('name', $request->input('head'))
+                        ->first();
+
+                    if ($selectedHead?->level > 1) {
+                        return ['required', 'exists:employees,name'];
+                    } else {
+                        return null;
+                    }
+                }),
+            ],
+            'date_of_employment' => [
+                'required',
+                'after_or_equal:2000-01-01',
+                'before_or_equal:today'
+            ],
+        ]);
+
+        if ($request->hasFile('photo')) {
+            $photo = $request->file('photo');
+            $filename = $photo->getClientOriginalName();
+            $storedFileName = $photo->storeAs('public/photos', $filename);
+            $validated['photo'] = basename($storedFileName);
+        }
+
+        dd($employee->update($validated));
     }
 
     public function destroy($id)
