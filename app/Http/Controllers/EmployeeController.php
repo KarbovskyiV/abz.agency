@@ -45,7 +45,7 @@ class EmployeeController extends Controller
     {
         $validated = $request->validate([
             'photo' => ['file', 'max:5000', 'mimes:jpg,png', 'dimensions:min_width=300,min_height=300'],
-            'name' => ['required', 'string', 'min:2, max:256'],
+            'name' => ['required', 'string', 'min:2', 'max:256'],
             'date_of_employment' => [
                 'required',
                 'after_or_equal:2000-01-01',
@@ -116,7 +116,7 @@ class EmployeeController extends Controller
 
         $validated = $request->validate([
             'photo' => ['file', 'max:5000', 'mimes:jpg,png', 'dimensions:min_width=300,min_height=300'],
-            'name' => ['required', 'string', 'min:2, max:256'],
+            'name' => ['required', 'string', 'min:2', 'max:256'],
             'phone_number' => [
                 'required',
                 'regex:/^\+380\s?\(\d{2}\)\s?\d{3}\s?\d{2}\s?\d{2}$/',
