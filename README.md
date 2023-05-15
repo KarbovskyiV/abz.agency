@@ -1,66 +1,62 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+**Завдання**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Каталог співробітників представляє собою базу даних з адмін інтерфейсом доступним тільки
+авторизованим користувачам. По цьому посиланню знаходяться wireframes адмін інтерфейсу – це те, що
+має вийти у Вас після виконання всіх підзадач. При створенні UI використовуйте тільки готові
+компоненти AdminLTE відповідно до wireframes.
+1. Інформація про кожного співробітника повинна мати наступні дані:
+a. ПІБ;
+b. Посада;
+c. Дата прийому на роботу;
+d. Номер телефона:
+e. Електронная пошта;
+f. Розмір заробітної плати;
+g. Фотографія.
+h. Системні поля: created_at, updated_at, admin_created_id, admin_updated_id які не мають
+бути доступні для редагування адміну, але мають оновлюватись системою під час CRUD
+операцій.
 
-## About Laravel
+2. У кожного співробітника є рівно 1 керівник. Для простоти будемо вважати,що підпорядкування
+одного співробітника іншому не залежить від посади кожного з них, тобто, два співробітника
+можуть мати однакову посаду, але при цьому один є керівником іншого.
+3. База даних повинна мати не менше 50 000 співробітників і 5 рівнів підпорядкування (в уявній
+компанії не може бути керівника 6 го рівня).
+4. Для посади співробітника має бути передбачена довідкова таблиця. Не забудьте добавити
+системні поля і в цю таблицю.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Підзадачі**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1. Створіть базу даних використовуючи міграції Laravel.
+2. Використовуйте Laravel seeder для заповнення бази даних фейковою інформацією. Дані
+співробітника повинні виглядати реалістично, а не бути просто рядком рандомних символів. Ми
+рекомендуємо використовувати бібліотеку Faker для цього, але можна використати, будь-яку
+іншу з якому Ви більше знайомі.
+3. Використовуючи стандартні функції Laravel реалізуйте функціонал по аутентифікації
+користувача.
+4. Створіть сторінку на якій буде виводитись список співробітників у табличному виді
+(використовуючи datatables) з відображенням всіх полів співробітника,з можливістю сортувати
+по, будь-якому полю та реалізувати пошук.
+5. Реалізуйте решту CRUD операцій для записів співробітників. Після збереження відправляти
+користувача на сторінку зі списком. Всі поля мають бути редагованими, включаючи поле
+керiвника кожного співробітника. Для всіх полів має бути реалізована валідація:
+a. ПІБ (ФІО): мінімум 2, максимум 256 символів;
+b. Дата прийому на роботу: валідна дата, формат при виводі дд.мм.рр;
+c. Номер телефона: валідний номер телефона в міжнародному форматі, дозволені тільки
+українські номери;
+d. Електронная пошта: валідна адреса електронної пошти;
+e. Розмір заробітної плати: дробове число від 0 до 500,000;
+f. Керівник: враховувати умови для ієрархії, та має бути перевірка на цілісність даних при
+збереженні;
+g. Посада: Повинна мати перевірку на цілісність даних при збереженні;
+6. Здійсніть можливість завантажувати фотографію співробітника,потрібно, зробіть відображення
+її на сторінці, де можна редагувати дані про співробітника. Додайте додаткову колонку зі
+зменшеною фотографією співробітника на сторінці списку всіх співробітників. Обмеження до
+файлу з фотографією: максимум 5 Мб, мінімум 300x300 пікселів, формати: jpg/png. Вихідний
+формат 300x300px, в jpg (80% quality) вирізаємо центр/центр, робимо автоповорот фото при
+необхідності.
+7. Здійсніть операцію по перепідпорядкуванню співробітників у випадку видалення запису їх
+керівника. Ви отримаєте додатковий бонус, якщо реалізуєте цей функціонал із застосуванням
+вбудованих механізмів/парадигм, пропонованих Eloquent ORM.
+8. Реалізуйте аналогічний CRUD інтерфейс для довідкової таблиці посад. Обмеження на довжину
+названня посади: максимум 256 символів. Після збереження відправити користувача на сторінку
+зі списком.
